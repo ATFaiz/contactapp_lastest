@@ -27,10 +27,9 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('user-contact', function($user, $contact){
 
-            //    return $contacts->user_id = Auth::user()->id;
-                return $user->id === $contact->user_id;
-    
             
+                return $user->id === $contact->user_id;
+             
             });
     }
 }

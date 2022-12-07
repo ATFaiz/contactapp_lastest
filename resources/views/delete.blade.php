@@ -6,22 +6,10 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Delete Contact') }}</div>
+                <br>
+                <br>
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    <!-- <a href="{{ route('contact.index') }}" class="btn btn-success btn-sm" title="Go to Index">
-                            <i class="fa fa-arrow-left"></i> Go Back
-                        </a> -->
-                        <br/>
-                        <br/>
-
-
-                    <form action="{{ route('contact.destroy', $contacts->id) }}" method="post">
+                   <form action="{{ route('user.destroy', $contacts->id) }}" method="post">
                     @csrf
                     @method('DELETE')
                     <div class="form-group row mb-0" >
@@ -34,13 +22,15 @@
                         </br>
                         
                         <div class="form-group row mb-0" >
-                            <div class="col-md-8 offset-md-4 ">
+                            <div class="col-md-8 offset-md-5 ">
                                 <button type="submit" class="btn btn-danger">
                                     Yes
                                 </button>
-                                <a href="{{ route('contact.index') }}" class="btn btn-info">No</a>
+                                <a href="{{ route('user.index') }}" class="btn btn-info">No</a>
                             </div>
                         </div>
+                        <br>
+                        <br>
                       
                     </form>
                        

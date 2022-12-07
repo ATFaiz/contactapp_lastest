@@ -23,6 +23,29 @@
     RewriteCond %{HTTP_REFERER} !^https://(www\.)?ss-systems.duckdns [NC]
     RewriteCond %{HTTP_REFERER} !^https://(www\.)?ss-systems.duckdns.*$ [NC]
     RewriteRule \.(bmp|jpg|jpeg|png)$ - [F,L,NC]
-
-        
+            
 </IfModule>
+
+# DISABLE CACHING
+<IfModule mod_headers.c>
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires 0
+</IfModule>
+
+<FilesMatch "\.(bmp|jpeg|jpg|png|)$">
+    <IfModule mod_expires.c>
+        ExpiresActive Off
+    </IfModule>
+    <IfModule mod_headers.c>
+        FileETag None
+        Header unset ETag
+        Header unset Pragma
+        Header unset Cache-Control
+        Header unset Last-Modified
+        Header set Pragma "no-cache"
+        Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
+        Header set Expires "Thu, 1 Jan 1970 00:00:00 GMT"
+    </IfModule>
+</FilesMatch>
+

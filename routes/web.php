@@ -30,10 +30,21 @@ Route::get('/link', function(){
 Artisan::call('storage:link');
 });
 
+
+
 Auth::routes(['verify'=>true]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/storage/media/{filename}', function () {
+//     return response()->file("/var/www/html/contactapp/public/storage/media" . $filename);
+// });
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'userIndex'])->name('home')
+->middleware('user');
 
 // Auth::routes(['verify'=>true]);
-Route::resource('contact', 'App\Http\Controllers\ContactController');
+Route::get('/admin', [App\Http\Controllers\HomeController::class, 'adminIndex'])->name('admin.home')
+->middleware('role');
+
+// Auth::routes(['verify'=>true]);
+Route::resource('user', 'App\Http\Controllers\ContactController')->middleware('user');
 

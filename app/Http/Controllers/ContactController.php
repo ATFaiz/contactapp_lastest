@@ -22,11 +22,11 @@ class ContactController extends Controller
      */
     public function index()
     {
-        // $contacts = Contact::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
-        // return view('home', compact('contacts'));
-
         $contacts = Contact::all();
         return view('home', compact('contacts'));
+
+        //In Laravel, can use compact() to pass an array of the variables 
+        //from controller to view.
     }
 
     /**
@@ -57,7 +57,7 @@ class ContactController extends Controller
         $contacts->name = $request->input('name');
         $contacts->mobile = $request->input('mobile');
 
-        $fileName = time().$request->file('photo')->getClientOriginalName();
+        $fileName = time().$request->file('photo')->hashName();
         $path = $request->file('photo')->storeAs('media', $fileName, 'public');
         $contacts['photo'] = '/storage/'.$path;
 
@@ -65,7 +65,7 @@ class ContactController extends Controller
 
         $contacts->save();
 
-        return back()->with('success', 'Item created successfully');
+        return back()->with('success', 'Contact created successfully');
 
 
     }
@@ -117,7 +117,7 @@ class ContactController extends Controller
                 File::delete($path);
             }
             
-            $fileName = time().$request->file('photo')->getClientOriginalName();
+            $fileName = time().$request->file('photo')->hashName();
             $path = $request->file('photo')->storeAs('media', $fileName, 'public');
             $contacts ['photo'] = '/storage/'.$path;
 
@@ -126,7 +126,7 @@ class ContactController extends Controller
         $contacts->user_id = Auth::user()->id;
         
         $contacts->save();
-        return back()->with('success', 'Item updated successfully');
+        return back()->with('success', 'Contact updated successfully');
 
     }
 
@@ -142,6 +142,6 @@ class ContactController extends Controller
         unlink(public_path($contacts->photo));
         $contacts->delete();
         // ls -la |wc -l
-        return redirect()->route('contact.index')->with('success', 'Item deleted successfully');
+        return redirect()->route('user.index')->with('status', 'Contact deleted successfully');
     }
 }
